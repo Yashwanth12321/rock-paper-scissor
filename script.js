@@ -1,4 +1,5 @@
 function getComputerChoice() {
+
     const randomNumber= Math.ceil(Math.random()*3)
     switch (randomNumber) {
         case 1:
@@ -14,38 +15,62 @@ function getComputerChoice() {
             break;
     }
 }
+let playerScore=0;
+let computerScore=0;
+const rock=document.querySelector("#rock");
+const paper=document.querySelector("#paper");
+const scissor=document.querySelector("#scissor");
+
+rock.addEventListener("click",(e)=>{
+    console.log(e.target);
+    let outcome=playRound("rock",getComputerChoice());
+    game(outcome);
+    
+
+});
+paper.addEventListener("click",(e)=>{
+    console.log(e.target);
+    let outcome=playRound("paper",getComputerChoice());
+    game(outcome);
+});
+scissor.addEventListener("click",(e)=>{
+    console.log(e.target);
+    let outcome=playRound("scissor",getComputerChoice());
+    game(outcome);
+});
 
 function playRound(playerChoice,ComputerChoice) {
+
     if (playerChoice.toLowerCase()==="rock") {
         if (ComputerChoice==="scissor") {
-            return "you win";
+            return 1;
             
         }else if(ComputerChoice==="paper"){
-            return "you lose";
+            return 0;
         }
         else{
-            return "its a tie";
+            return 2;
         }
     }else if(playerChoice.toLowerCase()==="scissor"){
         if (ComputerChoice==="scissor") {
-            return "its a tie";
+            return 2;
             
         }else if(ComputerChoice==="paper"){
-            return "you win";
+            return 1;
         }
         else{
-            return "you lost";
+            return 0;
         }
     }
     else if(playerChoice.toLowerCase()==="paper"){
         if (ComputerChoice==="scissor") {
-            return "you lost";
+            return 0;
             
         }else if(ComputerChoice==="paper"){
-            return "its a tie";
+            return 2;
         }
         else{
-            return "you win";
+            return 1;
         }
     }
     else {
@@ -53,35 +78,58 @@ function playRound(playerChoice,ComputerChoice) {
     }
 }
 
-function game() {
-    let playerScore=0;
-    let computerScore=0;
-    let cond=true;
-    for (let i = 0; cond; i++) {
-        let playerChoice=prompt("whats your move");
-        let outcome =playRound(playerChoice,getComputerChoice());
-        console.log(outcome);
-        if (outcome==="you win") {
-            playerScore++;
-        }
-        else if(outcome==="you lose"){
-            computerScore++;
-        }
-        else{
-            continue;
-        }
-        console.log(playerScore);
-        if (playerScore===5 ||computerScore===5) {
-            cond=false;
-        }
+function game(outcome) {
+    
+   
+    console.log(outcome);
+    
+    if (outcome===1) {
+        
+        playerScore++;
+        
+        document.getElementById("pscore").innerText=playerScore;
+        document.getElementById('extra').innerText="you won damn";
+        
+        
     }
-    if (playerScore===5) {
-        console.log("You won");
-    }else if(computerScore===5){
-        console.log("you lost");
+    else if(outcome===0){
+        computerScore++;
+        document.querySelector("#cscore").innerText=computerScore;
+        document.getElementById('extra').innerText="You lost damn";
     }
     else{
-        console.log("error");
+        document.getElementById('extra').innerText="its a tie";
+        
     }
+    
+    
+   
+    const container=document.querySelector("#container");
+    const results=document.querySelector("#results");
+    let closing=document.createElement("p");
+    let outcome2=document.getElementById('extra');
+    if (playerScore===5) {
+        outcome2.innerText="gameover you win";
+        rock.disabled=true;
+        scissor.disabled=true;
+        paper.disabled=true;
+        closing.innerText="reload to play the game again";
+        results.appendChild(closing);
+
+        
+
+    }
+    else if(computerScore===5){
+        outcome2.innerText="game over you lost damn";
+        rock.disabled=true;
+        scissor.disabled=true;
+        paper.disabled=true;
+        closing.innerText="reload to play the game again";
+        results.appendChild(closing);
+    }
+    else{
+
+    }
+    
     
 }
